@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "DetailsPassanger";
+    Layout = "~/Views/admin/_Layout.cshtml";
+}
+
+<h2>Detail of the Student</h2>
+<table class="table table-responsive table-hover ">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td><b>Passanger Full Name</b></td>
+            <td>@item.FName @item.MName @item.LName</td>
+        </tr>
+        <tr>
+            <td><b>Passanger Address</b></td>
+            <td>@item.address</td>
+        </tr>
+        <tr>
+            <td><b>Passanger Age</b></td>
+            @{
+                int age = DateTime.Now.Year - item.bDate.Year;
+                <td>@age</td>
+            }
+        </tr>
+        <tr>
+            <td><b>Passanger Address</b></td>
+            <td>@item.sex</td>
+        </tr>
+        <tr>
+            <td><b>Passanger Security</b></td>
+            @{
+                if (item.isOkay)
+                {
+                    <td> Passanger is okay.</td>
+                }
+                else
+                {
+                    <td> Passanger is NOT okay.</td>
+                }
+            }
+        </tr>
+        <tr>
+            <td><b> Pasanger's Ticket</b></td>
+            @{
+                if (item.isTicketOkay)
+                {
+                    <td> Ticket is okay.</td>
+                }
+                else
+                {
+                    <td> Ticket is NOT okay.</td>
+                }
+            }
+        </tr>
+
+        <tr>
+            <td><b>Passanger Luggage</b></td>
+            <td>
+                @{
+                    if (item.Luggage.Count != 0)
+                    {
+                        foreach (var item1 in @item.Luggage)
+                        {
+                            <p> Luggage ID : @item1.lugageId | Weight : @item1.weight</p>
+                            if (item1.isSafe)
+                            {
+                                <p> Luggage is safe.</p>
+                            }
+                            else
+                            {
+                                <p> Luggage is NOT safe.</p>
+                            }
+                            if (item1.isBaggageClaim)
+                            {
+                                <p> Baggage Claim</p>
+                            }
+                            else
+                            {
+                                <p> Cabin</p>
+                            }
+
+                            @Html.ActionLink("Update", "UpdateLuggage", "admin", new { luggageId = item1.lugageId ,passangerId = item1.passangerId }, new { @type= "submit" ,@class = "btn btn-secondary mx-3 my-auto" })
+                            @Html.ActionLink("Delete", "DeleteLuggage", "admin", new { luggageId = item1.lugageId, passangerId = item1.passangerId }, new { @onclick = "return confirm('Are you sure you wish to delete this record?')" , @class = "btn btn-danger mx-3 my-auto" })
+                        }
+                    }
+
+                    else
+                    {
+                        <p> No Lugage </p>
+                    }
+                    @Html.ActionLink("Add Luggage", "AddLuggage", "admin", new { passangerId = item.passangerId}, new { @class = "btn btn-secondary mx-3 my-auto" })
+                }
+
+            </td>
+        </tr>
+    }
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "Passangers", "admin", new { @class = "btn btn-secondary mx-3 my-auto" })
+</div>

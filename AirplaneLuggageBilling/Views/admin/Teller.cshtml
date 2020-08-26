@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Teller";
+    Layout = "~/Views/admin/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <h2 class="text-center my-3">Teller List </h2>
+
+    <table class="table table-hover mx-auto ">
+        <thead>
+            <tr>
+                <th >Full Name</th>
+                <th >Address</th>
+                <th>Salary</th>
+                <th>Age</th>
+                <th>Sex</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.FName @item.MName @item.LName</td>
+                    <td>@item.Address</td>
+                    <td>@item.Salary</td>
+                    @{
+                        int age = DateTime.Now.Year - item.BDate.Year;
+                        <td>@age</td>
+                    }
+                    <td>@item.Sex</td>
+                    <td>
+                        @Html.ActionLink("Update", "UpdateTeller", "admin", new { tellerId = item.coEmId }, null) | 
+                        @Html.ActionLink("Delete", "DeleteTeller", "admin", new { coEmId = item.coEmId }, new { onclick = "return confirm('Are you sure you wish to delete this record?');" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.ActionLink("Add Teller", "AddTeller", "admin", new { @class = "btn btn-primary btn-lg btn-block mx-auto" })
+</div>
+
+
+

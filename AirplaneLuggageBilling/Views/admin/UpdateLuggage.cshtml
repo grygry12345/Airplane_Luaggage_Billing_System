@@ -1,0 +1,62 @@
+﻿@model AirplaneLuggageBilling.Models.Luggage
+
+@{
+    ViewBag.Title = "UpdateLugage";
+    Layout = "~/Views/admin/_Layout.cshtml";
+}
+
+<h2>Update Luggage</h2>
+
+<div class="col-lg-12">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <br />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.lugageId)
+        <div class="form-group">
+            <b class="control-label col-md-2">Weight</b>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.weight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.weight, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="control-label col-md-2">Is Baggage Claim</b>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.isBaggageClaim, new List<SelectListItem> {
+                        new SelectListItem { Text = "Yes", Value = "true"},
+                        new SelectListItem {Text = "No", Value = "false", Selected=true} }
+                     , new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.isBaggageClaim, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="control-label col-md-2">Is Safe</b>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.isSafe, new List<SelectListItem> {
+                        new SelectListItem { Text = "Yes", Value = "true"},
+                        new SelectListItem {Text = "No", Value = "false", Selected=true} }
+                     , new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.isSafe, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Update", "DetailsPassanger", "admin", new { passangerId = Model.passangerId }, new { @class = "btn btn-success my-auto mx-3 float-none" })
+                @Html.ActionLink("Back to List", "DetailsPassanger", "admin", new { passangerId = Model.passangerId }, new { @class = "btn btn-secondary my-auto mx-3 float-none" })
+
+            </div>
+        </div>
+
+    </div>
+    }
+  
+</div>
+
+

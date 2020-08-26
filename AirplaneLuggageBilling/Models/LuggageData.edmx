@@ -1,0 +1,2358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LugageBillingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Airport_Employee">
+          <Key>
+            <PropertyRef Name="airEmId" />
+          </Key>
+          <Property Name="airEmId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BDate" Type="datetime" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Salary" Type="smallint" Nullable="false" />
+          <Property Name="Sex" Type="char" MaxLength="1" />
+          <Property Name="AirportName" Type="nvarchar" MaxLength="50" />
+          <Property Name="employeeType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Airports">
+          <Key>
+            <PropertyRef Name="airportName" />
+          </Key>
+          <Property Name="airportName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="city" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="state" Type="nvarchar" MaxLength="50" />
+          <Property Name="country" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'LugageBilling.airport_employee.Airports_Air_Company' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Airports_Air_Company">
+          <Property Name="AirportName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="50" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.airport_employee.Airports_Air_Company_Date' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Airports_Air_Company_Date">
+          <Key>
+            <PropertyRef Name="startDate" />
+            <PropertyRef Name="endDate" />
+          </Key>
+          <Property Name="startDate" Type="date" Nullable="false" />
+          <Property Name="endDate" Type="date" Nullable="false" />
+          <Property Name="AirportName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.airport_employee.Counters' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Counters">
+          <Key>
+            <PropertyRef Name="AirportName" />
+            <PropertyRef Name="counterNumber" />
+          </Key>
+          <Property Name="AirportName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="counterNumber" Type="tinyint" Nullable="false" />
+          <Property Name="tellerId" Type="int" />
+        </EntityType>
+        <EntityType Name="Security">
+          <Key>
+            <PropertyRef Name="SecurityId" />
+          </Key>
+          <Property Name="SecurityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="airEmId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transport_Vehicle">
+          <Key>
+            <PropertyRef Name="vehicleId" />
+          </Key>
+          <Property Name="vehicleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vehicleType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="year" Type="smallint" Nullable="false" />
+          <Property Name="transporterId" Type="int" />
+          <Property Name="airportName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.airport_employee.Transport_Vehicle_Airplane' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Transport_Vehicle_Airplane">
+          <Key>
+            <PropertyRef Name="luggageNumber" />
+          </Key>
+          <Property Name="luggageNumber" Type="smallint" Nullable="false" />
+          <Property Name="airplaneId" Type="int" />
+          <Property Name="vehicleId" Type="int" />
+        </EntityType>
+        <EntityType Name="Transporter">
+          <Key>
+            <PropertyRef Name="transporterId" />
+          </Key>
+          <Property Name="transporterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="airEmId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Air_Company">
+          <Key>
+            <PropertyRef Name="companyName" />
+          </Key>
+          <Property Name="companyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Airplane">
+          <Key>
+            <PropertyRef Name="airplaneId" />
+          </Key>
+          <Property Name="airplaneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="model" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="year" Type="datetime" Nullable="false" />
+          <Property Name="pilotId" Type="int" />
+          <Property Name="airCompanyName" Type="nvarchar" MaxLength="50" />
+          <Property Name="capacity" Type="smallint" Nullable="false" />
+          <Property Name="luggageCapacity" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company_Employee">
+          <Key>
+            <PropertyRef Name="coEmId" />
+          </Key>
+          <Property Name="coEmId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BDate" Type="datetime" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Salary" Type="smallint" Nullable="false" />
+          <Property Name="Sex" Type="char" MaxLength="1" />
+          <Property Name="AirCompanyName" Type="nvarchar" MaxLength="50" />
+          <Property Name="AirPortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="employeeType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'LugageBilling.company_employee.Flight_Airplane' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Flight_Airplane">
+          <Property Name="flightId" Type="int" />
+          <Property Name="airplaneId" Type="int" />
+        </EntityType>-->
+        <EntityType Name="Pilot">
+          <Key>
+            <PropertyRef Name="pilotId" />
+          </Key>
+          <Property Name="pilotId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coEmId" Type="int" />
+        </EntityType>
+        <EntityType Name="Teller">
+          <Key>
+            <PropertyRef Name="tellerId" />
+          </Key>
+          <Property Name="tellerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coEmId" Type="int" />
+        </EntityType>
+        <EntityType Name="Flight">
+          <Key>
+            <PropertyRef Name="flightId" />
+          </Key>
+          <Property Name="flightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="boardingTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="departureTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="arrivalTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="startPointName" Type="nvarchar" MaxLength="50" />
+          <Property Name="destinationName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Luggage">
+          <Key>
+            <PropertyRef Name="lugageId" />
+          </Key>
+          <Property Name="lugageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="isSafe" Type="bit" Nullable="false" />
+          <Property Name="isBaggageClaim" Type="bit" Nullable="false" />
+          <Property Name="weight" Type="float" Nullable="false" />
+          <Property Name="transporterId" Type="int" />
+          <Property Name="securityId" Type="int" />
+          <Property Name="tellerId" Type="int" />
+          <Property Name="passangerId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.passanger.Luggage_Color' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Luggage_Color">
+          <Key>
+            <PropertyRef Name="primaryColor" />
+          </Key>
+          <Property Name="luggageId" Type="int" />
+          <Property Name="primaryColor" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="secondaryColor" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Passanger">
+          <Key>
+            <PropertyRef Name="passangerId" />
+          </Key>
+          <Property Name="passangerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="bDate" Type="date" Nullable="false" />
+          <Property Name="sex" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="isOkay" Type="bit" Nullable="false" />
+          <Property Name="isTicketOkay" Type="bit" Nullable="false" />
+          <Property Name="securityId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.passanger.Ticket' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="ticketId" />
+            <PropertyRef Name="price" />
+          </Key>
+          <Property Name="ticketId" Type="int" Nullable="false" />
+          <Property Name="price" Type="smallint" Nullable="false" />
+          <Property Name="tellerId" Type="int" />
+          <Property Name="flightId" Type="int" />
+          <Property Name="passangerId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.airport_employee.listAllCarry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="listAllCarry">
+          <Key>
+            <PropertyRef Name="lugageId" />
+            <PropertyRef Name="weight" />
+            <PropertyRef Name="primaryColor" />
+            <PropertyRef Name="vehicleType" />
+            <PropertyRef Name="year" />
+          </Key>
+          <Property Name="lugageId" Type="int" Nullable="false" />
+          <Property Name="weight" Type="float" Nullable="false" />
+          <Property Name="primaryColor" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="secondaryColor" Type="nvarchar" MaxLength="50" />
+          <Property Name="airportName" Type="nvarchar" MaxLength="50" />
+          <Property Name="vehicleType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="year" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.airport_employee.listAllEmployee' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="listAllEmployee">
+          <Key>
+            <PropertyRef Name="Full Name (Airport Employee)" />
+            <PropertyRef Name="BDate" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="Salary" />
+          </Key>
+          <Property Name="Full Name (Airport Employee)" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="BDate" Type="date" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Salary" Type="smallint" Nullable="false" />
+          <Property Name="Sex" Type="char" MaxLength="1" />
+          <Property Name="employeeType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.airport_employee.listTotalPlaneNumbers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="listTotalPlaneNumbers">
+          <Key>
+            <PropertyRef Name="companyName" />
+          </Key>
+          <Property Name="companyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Total Airplane in X company" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'LugageBilling.airport_employee.showTotalLuggage' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="showTotalLuggage">
+          <Property Name="airplaneId" Type="int" />
+          <Property Name="Total luggage Number" Type="int" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.airport_employee.viewValidAgrements' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="viewValidAgrements">
+          <Key>
+            <PropertyRef Name="startDate" />
+            <PropertyRef Name="endDate" />
+          </Key>
+          <Property Name="AirportName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="50" />
+          <Property Name="startDate" Type="date" Nullable="false" />
+          <Property Name="endDate" Type="date" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.company_employee.Counter_Teller_Dist' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Counter_Teller_Dist">
+          <Key>
+            <PropertyRef Name="tellerId" />
+            <PropertyRef Name="FName" />
+            <PropertyRef Name="MName" />
+            <PropertyRef Name="LName" />
+            <PropertyRef Name="counterNumber" />
+          </Key>
+          <Property Name="AirCompanyName" Type="nvarchar" MaxLength="50" />
+          <Property Name="tellerId" Type="int" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="counterNumber" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.company_employee.FlightDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FlightDetails">
+          <Key>
+            <PropertyRef Name="destinationName" />
+            <PropertyRef Name="model" />
+            <PropertyRef Name="boardingTime" />
+            <PropertyRef Name="departureTime" />
+            <PropertyRef Name="arrivalTime" />
+            <PropertyRef Name="Pilot" />
+          </Key>
+          <Property Name="startpointName" Type="nvarchar" MaxLength="50" />
+          <Property Name="destinationName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="model" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="boardingTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="departureTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="arrivalTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Pilot" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.passanger.approvedTickets' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="approvedTickets">
+          <Key>
+            <PropertyRef Name="Passanger Full Name" />
+            <PropertyRef Name="ticketId" />
+            <PropertyRef Name="Security" />
+          </Key>
+          <Property Name="Passanger Full Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ticketId" Type="int" Nullable="false" />
+          <Property Name="Security" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.passanger.listPassange_Luggage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="listPassange_Luggage">
+          <Key>
+            <PropertyRef Name="passangerId" />
+          </Key>
+          <Property Name="passangerId" Type="int" Nullable="false" />
+          <Property Name="Lugage Count" Type="int" />
+          <Property Name="Total Lugage Weight" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LugageBilling.passanger.ordinaryTicket' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ordinaryTicket">
+          <Key>
+            <PropertyRef Name="ticketId" />
+            <PropertyRef Name="FName" />
+            <PropertyRef Name="MName" />
+            <PropertyRef Name="LName" />
+            <PropertyRef Name="price" />
+          </Key>
+          <Property Name="ticketId" Type="int" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="price" Type="smallint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Airplane__airCom__1AD3FDA4">
+          <End Role="Air_Company" Type="Self.Air_Company" Multiplicity="0..1" />
+          <End Role="Airplane" Type="Self.Airplane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Air_Company">
+              <PropertyRef Name="companyName" />
+            </Principal>
+            <Dependent Role="Airplane">
+              <PropertyRef Name="airCompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Airplane__pilotI__19DFD96B">
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="0..1" />
+          <End Role="Airplane" Type="Self.Airplane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pilot">
+              <PropertyRef Name="pilotId" />
+            </Principal>
+            <Dependent Role="Airplane">
+              <PropertyRef Name="pilotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Airport_E__Airpo__04E4BC85">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Airport_Employee" Type="Self.Airport_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Airport_Employee">
+              <PropertyRef Name="AirportName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'LugageBilling.airport_employee.Airports_Air_Company' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Airports___Airpo__7A672E12" />-->
+        <Association Name="FK__Airports___Airpo__7D439ABD">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Airports_Air_Company_Date" Type="Self.Airports_Air_Company_Date" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Airports_Air_Company_Date">
+              <PropertyRef Name="AirportName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'LugageBilling.airport_employee.Airports_Air_Company' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Airports___Compa__7B5B524B" />-->
+        <Association Name="FK__Airports___Compa__7E37BEF6">
+          <End Role="Air_Company" Type="Self.Air_Company" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Airports_Air_Company_Date" Type="Self.Airports_Air_Company_Date" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Air_Company">
+              <PropertyRef Name="companyName" />
+            </Principal>
+            <Dependent Role="Airports_Air_Company_Date">
+              <PropertyRef Name="CompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Company_E__AirCo__01142BA1">
+          <End Role="Air_Company" Type="Self.Air_Company" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Company_Employee" Type="Self.Company_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Air_Company">
+              <PropertyRef Name="companyName" />
+            </Principal>
+            <Dependent Role="Company_Employee">
+              <PropertyRef Name="AirCompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Company_E__AirPo__02084FDA">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Company_Employee" Type="Self.Company_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Company_Employee">
+              <PropertyRef Name="AirPortName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Counters__Airpor__07C12930">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Counters" Type="Self.Counters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Counters">
+              <PropertyRef Name="AirportName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Counters__teller__3DE82FB7">
+          <End Role="Teller" Type="Self.Teller" Multiplicity="0..1" />
+          <End Role="Counters" Type="Self.Counters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teller">
+              <PropertyRef Name="tellerId" />
+            </Principal>
+            <Dependent Role="Counters">
+              <PropertyRef Name="tellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Flight__destinat__2DE6D218">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Flight" Type="Self.Flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Flight">
+              <PropertyRef Name="startPointName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'LugageBilling.company_employee.Flight_Airplane' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Flight_Ai__airpl__40F9A68C" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'LugageBilling.company_employee.Flight_Airplane' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Flight_Ai__fligh__40058253" />-->
+        <Association Name="FK__Luggage__passang__6BE40491">
+          <End Role="Passanger" Type="Self.Passanger" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passanger">
+              <PropertyRef Name="passangerId" />
+            </Principal>
+            <Dependent Role="Luggage">
+              <PropertyRef Name="passangerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Luggage__securit__69FBBC1F">
+          <End Role="Security" Type="Self.Security" Multiplicity="0..1" />
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security">
+              <PropertyRef Name="SecurityId" />
+            </Principal>
+            <Dependent Role="Luggage">
+              <PropertyRef Name="securityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Luggage__tellerI__6AEFE058">
+          <End Role="Teller" Type="Self.Teller" Multiplicity="0..1" />
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teller">
+              <PropertyRef Name="tellerId" />
+            </Principal>
+            <Dependent Role="Luggage">
+              <PropertyRef Name="tellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Luggage__transpo__690797E6">
+          <End Role="Transporter" Type="Self.Transporter" Multiplicity="0..1" />
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transporter">
+              <PropertyRef Name="transporterId" />
+            </Principal>
+            <Dependent Role="Luggage">
+              <PropertyRef Name="transporterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Luggage_C__lugga__7849DB76">
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Luggage_Color" Type="Self.Luggage_Color" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luggage">
+              <PropertyRef Name="lugageId" />
+            </Principal>
+            <Dependent Role="Luggage_Color">
+              <PropertyRef Name="luggageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Passanger__secur__2B0A656D">
+          <End Role="Security" Type="Self.Security" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Passanger" Type="Self.Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security">
+              <PropertyRef Name="SecurityId" />
+            </Principal>
+            <Dependent Role="Passanger">
+              <PropertyRef Name="securityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pilot__coEmId__0A9D95DB">
+          <End Role="Company_Employee" Type="Self.Company_Employee" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Employee">
+              <PropertyRef Name="coEmId" />
+            </Principal>
+            <Dependent Role="Pilot">
+              <PropertyRef Name="coEmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Security__airEmI__1332DBDC">
+          <End Role="Airport_Employee" Type="Self.Airport_Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Security" Type="Self.Security" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airport_Employee">
+              <PropertyRef Name="airEmId" />
+            </Principal>
+            <Dependent Role="Security">
+              <PropertyRef Name="airEmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Teller__coEmId__0D7A0286">
+          <End Role="Company_Employee" Type="Self.Company_Employee" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Teller" Type="Self.Teller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Employee">
+              <PropertyRef Name="coEmId" />
+            </Principal>
+            <Dependent Role="Teller">
+              <PropertyRef Name="coEmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__flightId__3D2915A8">
+          <End Role="Flight" Type="Self.Flight" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flight">
+              <PropertyRef Name="flightId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="flightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__passange__3E1D39E1">
+          <End Role="Passanger" Type="Self.Passanger" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passanger">
+              <PropertyRef Name="passangerId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="passangerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__tellerId__3C34F16F">
+          <End Role="Teller" Type="Self.Teller" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teller">
+              <PropertyRef Name="tellerId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="tellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transport__airpl__2739D489">
+          <End Role="Airplane" Type="Self.Airplane" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transport_Vehicle_Airplane" Type="Self.Transport_Vehicle_Airplane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airplane">
+              <PropertyRef Name="airplaneId" />
+            </Principal>
+            <Dependent Role="Transport_Vehicle_Airplane">
+              <PropertyRef Name="airplaneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transport__airpo__22751F6C">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1" />
+          <End Role="Transport_Vehicle" Type="Self.Transport_Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Transport_Vehicle">
+              <PropertyRef Name="airportName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transport__trans__2180FB33">
+          <End Role="Transporter" Type="Self.Transporter" Multiplicity="0..1" />
+          <End Role="Transport_Vehicle" Type="Self.Transport_Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transporter">
+              <PropertyRef Name="transporterId" />
+            </Principal>
+            <Dependent Role="Transport_Vehicle">
+              <PropertyRef Name="transporterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transport__vehic__282DF8C2">
+          <End Role="Transport_Vehicle" Type="Self.Transport_Vehicle" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transport_Vehicle_Airplane" Type="Self.Transport_Vehicle_Airplane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transport_Vehicle">
+              <PropertyRef Name="vehicleId" />
+            </Principal>
+            <Dependent Role="Transport_Vehicle_Airplane">
+              <PropertyRef Name="vehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="findAirport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="airport_employee">
+          <Parameter Name="address" Type="nvarchar" Mode="In" />
+          <Parameter Name="city" Type="nvarchar" Mode="In" />
+          <Parameter Name="state" Type="nvarchar" Mode="In" />
+          <Parameter Name="country" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="findUnsafeLuggage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="airport_employee" ReturnType="int" />
+        <Function Name="insertLuggageCapacity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="airport_employee">
+          <Parameter Name="airplaneId" Type="int" Mode="In" />
+          <Parameter Name="weight" Type="float" Mode="In" />
+          <Parameter Name="transporter" Type="int" Mode="In" />
+          <Parameter Name="security" Type="int" Mode="In" />
+          <Parameter Name="teller" Type="int" Mode="In" />
+          <Parameter Name="passanger" Type="int" Mode="In" />
+        </Function>
+        <Function Name="updateSalary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="airport_employee">
+          <Parameter Name="employeeType" Type="nvarchar" Mode="In" />
+          <Parameter Name="salary" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="detEmpSalary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="company_employee" ReturnType="int">
+          <Parameter Name="empType" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="findCompanyEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="company_employee">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getNewEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="company_employee">
+          <Parameter Name="FName" Type="nvarchar" Mode="In" />
+          <Parameter Name="MName" Type="nvarchar" Mode="In" />
+          <Parameter Name="LName" Type="nvarchar" Mode="In" />
+          <Parameter Name="BDate" Type="datetime" Mode="In" />
+          <Parameter Name="Address" Type="nvarchar" Mode="In" />
+          <Parameter Name="Salary" Type="smallint" Mode="In" />
+          <Parameter Name="Sex" Type="char" Mode="In" />
+          <Parameter Name="aircompany" Type="nvarchar" Mode="In" />
+          <Parameter Name="airportName" Type="nvarchar" Mode="In" />
+          <Parameter Name="employeeType" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="listAllBaggages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="company_employee" />
+        <Function Name="listAllLuggageInAirplane" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="company_employee">
+          <Parameter Name="airplaneId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="listPilotAirplane" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="company_employee" />
+        <Function Name="retireEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="company_employee" />
+        <Function Name="deleteInvalidLugage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="passanger" />
+        <Function Name="deleteUnvalidTicket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="passanger" />
+        <Function Name="determineTicketPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="passanger">
+          <Parameter Name="passangerId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="findLuggage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="passanger">
+          <Parameter Name="weight" Type="float" Mode="In" />
+          <Parameter Name="primaryColor" Type="nvarchar" Mode="In" />
+          <Parameter Name="secondaryColor" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="listLuggages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="passanger" />
+        <Function Name="luggagesDest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="passanger">
+          <Parameter Name="destName" Type="nvarchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="destinationName" Type="nvarchar" MaxLength="50" Nullable="false" />
+                <Property Name="Luggage_Num" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="writeLuggageMessage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="passanger">
+          <Parameter Name="isSafe" Type="bit" Mode="In" />
+          <Parameter Name="isBaggage" Type="bit" Mode="In" />
+          <Parameter Name="weight" Type="float" Mode="In" />
+          <Parameter Name="transporter" Type="int" Mode="In" />
+          <Parameter Name="secuity" Type="int" Mode="In" />
+          <Parameter Name="teller" Type="int" Mode="In" />
+          <Parameter Name="passanger" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="LugageBillingModelStoreContainer">
+          <EntitySet Name="Airport_Employee" EntityType="Self.Airport_Employee" Schema="airport_employee" store:Type="Tables" />
+          <EntitySet Name="Airports" EntityType="Self.Airports" Schema="airport_employee" store:Type="Tables" />
+          <EntitySet Name="Security" EntityType="Self.Security" Schema="airport_employee" store:Type="Tables" />
+          <EntitySet Name="Transport_Vehicle" EntityType="Self.Transport_Vehicle" Schema="airport_employee" store:Type="Tables" />
+          <EntitySet Name="Transporter" EntityType="Self.Transporter" Schema="airport_employee" store:Type="Tables" />
+          <EntitySet Name="Air_Company" EntityType="Self.Air_Company" Schema="company_employee" store:Type="Tables" />
+          <EntitySet Name="Airplane" EntityType="Self.Airplane" Schema="company_employee" store:Type="Tables" />
+          <EntitySet Name="Company_Employee" EntityType="Self.Company_Employee" Schema="company_employee" store:Type="Tables" />
+          <EntitySet Name="Pilot" EntityType="Self.Pilot" Schema="company_employee" store:Type="Tables" />
+          <EntitySet Name="Teller" EntityType="Self.Teller" Schema="company_employee" store:Type="Tables" />
+          <EntitySet Name="Flight" EntityType="Self.Flight" Schema="passanger" store:Type="Tables" />
+          <EntitySet Name="Luggage" EntityType="Self.Luggage" Schema="passanger" store:Type="Tables" />
+          <EntitySet Name="Passanger" EntityType="Self.Passanger" Schema="passanger" store:Type="Tables" />
+          <EntitySet Name="Airports_Air_Company_Date" EntityType="Self.Airports_Air_Company_Date" store:Type="Tables" store:Schema="airport_employee">
+            <DefiningQuery>SELECT 
+    [Airports_Air_Company_Date].[startDate] AS [startDate], 
+    [Airports_Air_Company_Date].[endDate] AS [endDate], 
+    [Airports_Air_Company_Date].[AirportName] AS [AirportName], 
+    [Airports_Air_Company_Date].[CompanyName] AS [CompanyName]
+    FROM [airport_employee].[Airports_Air_Company_Date] AS [Airports_Air_Company_Date]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Counters" EntityType="Self.Counters" store:Type="Tables" store:Schema="airport_employee">
+            <DefiningQuery>SELECT 
+    [Counters].[AirportName] AS [AirportName], 
+    [Counters].[counterNumber] AS [counterNumber], 
+    [Counters].[tellerId] AS [tellerId]
+    FROM [airport_employee].[Counters] AS [Counters]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Transport_Vehicle_Airplane" EntityType="Self.Transport_Vehicle_Airplane" store:Type="Tables" store:Schema="airport_employee">
+            <DefiningQuery>SELECT 
+    [Transport_Vehicle_Airplane].[luggageNumber] AS [luggageNumber], 
+    [Transport_Vehicle_Airplane].[airplaneId] AS [airplaneId], 
+    [Transport_Vehicle_Airplane].[vehicleId] AS [vehicleId]
+    FROM [airport_employee].[Transport_Vehicle_Airplane] AS [Transport_Vehicle_Airplane]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Luggage_Color" EntityType="Self.Luggage_Color" store:Type="Tables" store:Schema="passanger">
+            <DefiningQuery>SELECT 
+    [Luggage_Color].[luggageId] AS [luggageId], 
+    [Luggage_Color].[primaryColor] AS [primaryColor], 
+    [Luggage_Color].[secondaryColor] AS [secondaryColor]
+    FROM [passanger].[Luggage_Color] AS [Luggage_Color]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" store:Type="Tables" store:Schema="passanger">
+            <DefiningQuery>SELECT 
+    [Ticket].[ticketId] AS [ticketId], 
+    [Ticket].[price] AS [price], 
+    [Ticket].[tellerId] AS [tellerId], 
+    [Ticket].[flightId] AS [flightId], 
+    [Ticket].[passangerId] AS [passangerId]
+    FROM [passanger].[Ticket] AS [Ticket]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="listAllCarry" EntityType="Self.listAllCarry" store:Type="Views" store:Schema="airport_employee">
+            <DefiningQuery>SELECT 
+    [listAllCarry].[lugageId] AS [lugageId], 
+    [listAllCarry].[weight] AS [weight], 
+    [listAllCarry].[primaryColor] AS [primaryColor], 
+    [listAllCarry].[secondaryColor] AS [secondaryColor], 
+    [listAllCarry].[airportName] AS [airportName], 
+    [listAllCarry].[vehicleType] AS [vehicleType], 
+    [listAllCarry].[year] AS [year]
+    FROM [airport_employee].[listAllCarry] AS [listAllCarry]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="listAllEmployee" EntityType="Self.listAllEmployee" store:Type="Views" store:Schema="airport_employee">
+            <DefiningQuery>SELECT 
+    [listAllEmployee].[Full Name (Airport Employee)] AS [Full Name (Airport Employee)], 
+    [listAllEmployee].[BDate] AS [BDate], 
+    [listAllEmployee].[Address] AS [Address], 
+    [listAllEmployee].[Salary] AS [Salary], 
+    [listAllEmployee].[Sex] AS [Sex], 
+    [listAllEmployee].[employeeType] AS [employeeType]
+    FROM [airport_employee].[listAllEmployee] AS [listAllEmployee]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="listTotalPlaneNumbers" EntityType="Self.listTotalPlaneNumbers" store:Type="Views" store:Schema="airport_employee">
+            <DefiningQuery>SELECT 
+    [listTotalPlaneNumbers].[companyName] AS [companyName], 
+    [listTotalPlaneNumbers].[Total Airplane in X company] AS [Total Airplane in X company]
+    FROM [airport_employee].[listTotalPlaneNumbers] AS [listTotalPlaneNumbers]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="viewValidAgrements" EntityType="Self.viewValidAgrements" store:Type="Views" store:Schema="airport_employee">
+            <DefiningQuery>SELECT 
+    [viewValidAgrements].[AirportName] AS [AirportName], 
+    [viewValidAgrements].[CompanyName] AS [CompanyName], 
+    [viewValidAgrements].[startDate] AS [startDate], 
+    [viewValidAgrements].[endDate] AS [endDate]
+    FROM [airport_employee].[viewValidAgrements] AS [viewValidAgrements]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Counter_Teller_Dist" EntityType="Self.Counter_Teller_Dist" store:Type="Views" store:Schema="company_employee">
+            <DefiningQuery>SELECT 
+    [Counter_Teller_Dist].[AirCompanyName] AS [AirCompanyName], 
+    [Counter_Teller_Dist].[tellerId] AS [tellerId], 
+    [Counter_Teller_Dist].[FName] AS [FName], 
+    [Counter_Teller_Dist].[MName] AS [MName], 
+    [Counter_Teller_Dist].[LName] AS [LName], 
+    [Counter_Teller_Dist].[counterNumber] AS [counterNumber]
+    FROM [company_employee].[Counter_Teller_Dist] AS [Counter_Teller_Dist]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FlightDetails" EntityType="Self.FlightDetails" store:Type="Views" store:Schema="company_employee">
+            <DefiningQuery>SELECT 
+    [FlightDetails].[startpointName] AS [startpointName], 
+    [FlightDetails].[destinationName] AS [destinationName], 
+    [FlightDetails].[model] AS [model], 
+    [FlightDetails].[boardingTime] AS [boardingTime], 
+    [FlightDetails].[departureTime] AS [departureTime], 
+    [FlightDetails].[arrivalTime] AS [arrivalTime], 
+    [FlightDetails].[Pilot] AS [Pilot]
+    FROM [company_employee].[FlightDetails] AS [FlightDetails]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="approvedTickets" EntityType="Self.approvedTickets" store:Type="Views" store:Schema="passanger">
+            <DefiningQuery>SELECT 
+    [approvedTickets].[Passanger Full Name] AS [Passanger Full Name], 
+    [approvedTickets].[ticketId] AS [ticketId], 
+    [approvedTickets].[Security] AS [Security]
+    FROM [passanger].[approvedTickets] AS [approvedTickets]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="listPassange_Luggage" EntityType="Self.listPassange_Luggage" store:Type="Views" store:Schema="passanger">
+            <DefiningQuery>SELECT 
+    [listPassange_Luggage].[passangerId] AS [passangerId], 
+    [listPassange_Luggage].[Lugage Count] AS [Lugage Count], 
+    [listPassange_Luggage].[Total Lugage Weight] AS [Total Lugage Weight]
+    FROM [passanger].[listPassange_Luggage] AS [listPassange_Luggage]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ordinaryTicket" EntityType="Self.ordinaryTicket" store:Type="Views" store:Schema="passanger">
+            <DefiningQuery>SELECT 
+    [ordinaryTicket].[ticketId] AS [ticketId], 
+    [ordinaryTicket].[FName] AS [FName], 
+    [ordinaryTicket].[MName] AS [MName], 
+    [ordinaryTicket].[LName] AS [LName], 
+    [ordinaryTicket].[price] AS [price]
+    FROM [passanger].[ordinaryTicket] AS [ordinaryTicket]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Airplane__airCom__1AD3FDA4" Association="Self.FK__Airplane__airCom__1AD3FDA4">
+            <End Role="Air_Company" EntitySet="Air_Company" />
+            <End Role="Airplane" EntitySet="Airplane" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Airplane__pilotI__19DFD96B" Association="Self.FK__Airplane__pilotI__19DFD96B">
+            <End Role="Pilot" EntitySet="Pilot" />
+            <End Role="Airplane" EntitySet="Airplane" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Airport_E__Airpo__04E4BC85" Association="Self.FK__Airport_E__Airpo__04E4BC85">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Airport_Employee" EntitySet="Airport_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Airports___Airpo__7D439ABD" Association="Self.FK__Airports___Airpo__7D439ABD">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Airports_Air_Company_Date" EntitySet="Airports_Air_Company_Date" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Airports___Compa__7E37BEF6" Association="Self.FK__Airports___Compa__7E37BEF6">
+            <End Role="Air_Company" EntitySet="Air_Company" />
+            <End Role="Airports_Air_Company_Date" EntitySet="Airports_Air_Company_Date" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Company_E__AirCo__01142BA1" Association="Self.FK__Company_E__AirCo__01142BA1">
+            <End Role="Air_Company" EntitySet="Air_Company" />
+            <End Role="Company_Employee" EntitySet="Company_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Company_E__AirPo__02084FDA" Association="Self.FK__Company_E__AirPo__02084FDA">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Company_Employee" EntitySet="Company_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Counters__Airpor__07C12930" Association="Self.FK__Counters__Airpor__07C12930">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Counters" EntitySet="Counters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Counters__teller__3DE82FB7" Association="Self.FK__Counters__teller__3DE82FB7">
+            <End Role="Teller" EntitySet="Teller" />
+            <End Role="Counters" EntitySet="Counters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Flight__destinat__2DE6D218" Association="Self.FK__Flight__destinat__2DE6D218">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Flight" EntitySet="Flight" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage__passang__6BE40491" Association="Self.FK__Luggage__passang__6BE40491">
+            <End Role="Passanger" EntitySet="Passanger" />
+            <End Role="Luggage" EntitySet="Luggage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage__securit__69FBBC1F" Association="Self.FK__Luggage__securit__69FBBC1F">
+            <End Role="Security" EntitySet="Security" />
+            <End Role="Luggage" EntitySet="Luggage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage__tellerI__6AEFE058" Association="Self.FK__Luggage__tellerI__6AEFE058">
+            <End Role="Teller" EntitySet="Teller" />
+            <End Role="Luggage" EntitySet="Luggage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage__transpo__690797E6" Association="Self.FK__Luggage__transpo__690797E6">
+            <End Role="Transporter" EntitySet="Transporter" />
+            <End Role="Luggage" EntitySet="Luggage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage_C__lugga__7849DB76" Association="Self.FK__Luggage_C__lugga__7849DB76">
+            <End Role="Luggage" EntitySet="Luggage" />
+            <End Role="Luggage_Color" EntitySet="Luggage_Color" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Passanger__secur__2B0A656D" Association="Self.FK__Passanger__secur__2B0A656D">
+            <End Role="Security" EntitySet="Security" />
+            <End Role="Passanger" EntitySet="Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pilot__coEmId__0A9D95DB" Association="Self.FK__Pilot__coEmId__0A9D95DB">
+            <End Role="Company_Employee" EntitySet="Company_Employee" />
+            <End Role="Pilot" EntitySet="Pilot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Security__airEmI__1332DBDC" Association="Self.FK__Security__airEmI__1332DBDC">
+            <End Role="Airport_Employee" EntitySet="Airport_Employee" />
+            <End Role="Security" EntitySet="Security" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Teller__coEmId__0D7A0286" Association="Self.FK__Teller__coEmId__0D7A0286">
+            <End Role="Company_Employee" EntitySet="Company_Employee" />
+            <End Role="Teller" EntitySet="Teller" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__flightId__3D2915A8" Association="Self.FK__Ticket__flightId__3D2915A8">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__passange__3E1D39E1" Association="Self.FK__Ticket__passange__3E1D39E1">
+            <End Role="Passanger" EntitySet="Passanger" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__tellerId__3C34F16F" Association="Self.FK__Ticket__tellerId__3C34F16F">
+            <End Role="Teller" EntitySet="Teller" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transport__airpl__2739D489" Association="Self.FK__Transport__airpl__2739D489">
+            <End Role="Airplane" EntitySet="Airplane" />
+            <End Role="Transport_Vehicle_Airplane" EntitySet="Transport_Vehicle_Airplane" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transport__airpo__22751F6C" Association="Self.FK__Transport__airpo__22751F6C">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Transport_Vehicle" EntitySet="Transport_Vehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transport__trans__2180FB33" Association="Self.FK__Transport__trans__2180FB33">
+            <End Role="Transporter" EntitySet="Transporter" />
+            <End Role="Transport_Vehicle" EntitySet="Transport_Vehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transport__vehic__282DF8C2" Association="Self.FK__Transport__vehic__282DF8C2">
+            <End Role="Transport_Vehicle" EntitySet="Transport_Vehicle" />
+            <End Role="Transport_Vehicle_Airplane" EntitySet="Transport_Vehicle_Airplane" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LugageBillingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="luggagesDest_Result">
+          <Property Name="destinationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Luggage_Num" Type="Int32" />
+        </ComplexType>
+        <EntityType Name="Airport_Employee">
+          <Key>
+            <PropertyRef Name="airEmId" />
+          </Key>
+          <Property Name="airEmId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salary" Type="Int16" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="AirportName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="employeeType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Airports" Relationship="Self.FK__Airport_E__Airpo__04E4BC85" FromRole="Airport_Employee" ToRole="Airports" />
+          <NavigationProperty Name="Security" Relationship="Self.FK__Security__airEmI__1332DBDC" FromRole="Airport_Employee" ToRole="Security" />
+        </EntityType>
+        <EntityType Name="Airports">
+          <Key>
+            <PropertyRef Name="airportName" />
+          </Key>
+          <Property Name="airportName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Airport_Employee" Relationship="Self.FK__Airport_E__Airpo__04E4BC85" FromRole="Airports" ToRole="Airport_Employee" />
+          <NavigationProperty Name="Airports_Air_Company_Date" Relationship="Self.FK__Airports___Airpo__7D439ABD" FromRole="Airports" ToRole="Airports_Air_Company_Date" />
+          <NavigationProperty Name="Company_Employee" Relationship="Self.FK__Company_E__AirPo__02084FDA" FromRole="Airports" ToRole="Company_Employee" />
+          <NavigationProperty Name="Counters" Relationship="Self.FK__Counters__Airpor__07C12930" FromRole="Airports" ToRole="Counters" />
+          <NavigationProperty Name="Flight" Relationship="Self.FK__Flight__destinat__2DE6D218" FromRole="Airports" ToRole="Flight" />
+          <NavigationProperty Name="Transport_Vehicle" Relationship="Self.FK__Transport__airpo__22751F6C" FromRole="Airports" ToRole="Transport_Vehicle" />
+        </EntityType>
+        <EntityType Name="Security">
+          <Key>
+            <PropertyRef Name="SecurityId" />
+          </Key>
+          <Property Name="SecurityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="airEmId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Airport_Employee" Relationship="Self.FK__Security__airEmI__1332DBDC" FromRole="Security" ToRole="Airport_Employee" />
+          <NavigationProperty Name="Luggage" Relationship="Self.FK__Luggage__securit__69FBBC1F" FromRole="Security" ToRole="Luggage" />
+          <NavigationProperty Name="Passanger" Relationship="Self.FK__Passanger__secur__2B0A656D" FromRole="Security" ToRole="Passanger" />
+        </EntityType>
+        <EntityType Name="Transport_Vehicle">
+          <Key>
+            <PropertyRef Name="vehicleId" />
+          </Key>
+          <Property Name="vehicleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vehicleType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="year" Type="Int16" Nullable="false" />
+          <Property Name="transporterId" Type="Int32" />
+          <Property Name="airportName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Airports" Relationship="Self.FK__Transport__airpo__22751F6C" FromRole="Transport_Vehicle" ToRole="Airports" />
+          <NavigationProperty Name="Transporter" Relationship="Self.FK__Transport__trans__2180FB33" FromRole="Transport_Vehicle" ToRole="Transporter" />
+          <NavigationProperty Name="Transport_Vehicle_Airplane" Relationship="Self.FK__Transport__vehic__282DF8C2" FromRole="Transport_Vehicle" ToRole="Transport_Vehicle_Airplane" />
+        </EntityType>
+        <EntityType Name="Transporter">
+          <Key>
+            <PropertyRef Name="transporterId" />
+          </Key>
+          <Property Name="transporterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="airEmId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Transport_Vehicle" Relationship="Self.FK__Transport__trans__2180FB33" FromRole="Transporter" ToRole="Transport_Vehicle" />
+          <NavigationProperty Name="Luggage" Relationship="Self.FK__Luggage__transpo__690797E6" FromRole="Transporter" ToRole="Luggage" />
+        </EntityType>
+        <EntityType Name="Air_Company">
+          <Key>
+            <PropertyRef Name="companyName" />
+          </Key>
+          <Property Name="companyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Airplane" Relationship="Self.FK__Airplane__airCom__1AD3FDA4" FromRole="Air_Company" ToRole="Airplane" />
+          <NavigationProperty Name="Airports_Air_Company_Date" Relationship="Self.FK__Airports___Compa__7E37BEF6" FromRole="Air_Company" ToRole="Airports_Air_Company_Date" />
+          <NavigationProperty Name="Company_Employee" Relationship="Self.FK__Company_E__AirCo__01142BA1" FromRole="Air_Company" ToRole="Company_Employee" />
+        </EntityType>
+        <EntityType Name="Airplane">
+          <Key>
+            <PropertyRef Name="airplaneId" />
+          </Key>
+          <Property Name="airplaneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="year" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="pilotId" Type="Int32" />
+          <Property Name="airCompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="capacity" Type="Int16" Nullable="false" />
+          <Property Name="luggageCapacity" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Air_Company" Relationship="Self.FK__Airplane__airCom__1AD3FDA4" FromRole="Airplane" ToRole="Air_Company" />
+          <NavigationProperty Name="Pilot" Relationship="Self.FK__Airplane__pilotI__19DFD96B" FromRole="Airplane" ToRole="Pilot" />
+          <NavigationProperty Name="Transport_Vehicle_Airplane" Relationship="Self.FK__Transport__airpl__2739D489" FromRole="Airplane" ToRole="Transport_Vehicle_Airplane" />
+        </EntityType>
+        <EntityType Name="Company_Employee">
+          <Key>
+            <PropertyRef Name="coEmId" />
+          </Key>
+          <Property Name="coEmId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salary" Type="Int16" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="AirCompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AirPortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="employeeType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Airports" Relationship="Self.FK__Company_E__AirPo__02084FDA" FromRole="Company_Employee" ToRole="Airports" />
+          <NavigationProperty Name="Air_Company" Relationship="Self.FK__Company_E__AirCo__01142BA1" FromRole="Company_Employee" ToRole="Air_Company" />
+          <NavigationProperty Name="Pilot" Relationship="Self.FK__Pilot__coEmId__0A9D95DB" FromRole="Company_Employee" ToRole="Pilot" />
+          <NavigationProperty Name="Teller" Relationship="Self.FK__Teller__coEmId__0D7A0286" FromRole="Company_Employee" ToRole="Teller" />
+        </EntityType>
+        <EntityType Name="Pilot">
+          <Key>
+            <PropertyRef Name="pilotId" />
+          </Key>
+          <Property Name="pilotId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coEmId" Type="Int32" />
+          <NavigationProperty Name="Airplane" Relationship="Self.FK__Airplane__pilotI__19DFD96B" FromRole="Pilot" ToRole="Airplane" />
+          <NavigationProperty Name="Company_Employee" Relationship="Self.FK__Pilot__coEmId__0A9D95DB" FromRole="Pilot" ToRole="Company_Employee" />
+        </EntityType>
+        <EntityType Name="Teller">
+          <Key>
+            <PropertyRef Name="tellerId" />
+          </Key>
+          <Property Name="tellerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coEmId" Type="Int32" />
+          <NavigationProperty Name="Company_Employee" Relationship="Self.FK__Teller__coEmId__0D7A0286" FromRole="Teller" ToRole="Company_Employee" />
+          <NavigationProperty Name="Counters" Relationship="Self.FK__Counters__teller__3DE82FB7" FromRole="Teller" ToRole="Counters" />
+          <NavigationProperty Name="Luggage" Relationship="Self.FK__Luggage__tellerI__6AEFE058" FromRole="Teller" ToRole="Luggage" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK__Ticket__tellerId__3C34F16F" FromRole="Teller" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="Flight">
+          <Key>
+            <PropertyRef Name="flightId" />
+          </Key>
+          <Property Name="flightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="boardingTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="departureTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="arrivalTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="startPointName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="destinationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Airports" Relationship="Self.FK__Flight__destinat__2DE6D218" FromRole="Flight" ToRole="Airports" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK__Ticket__flightId__3D2915A8" FromRole="Flight" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="Luggage">
+          <Key>
+            <PropertyRef Name="lugageId" />
+          </Key>
+          <Property Name="lugageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="isSafe" Type="Boolean" Nullable="false" />
+          <Property Name="isBaggageClaim" Type="Boolean" Nullable="false" />
+          <Property Name="weight" Type="Double" Nullable="false" />
+          <Property Name="transporterId" Type="Int32" />
+          <Property Name="securityId" Type="Int32" />
+          <Property Name="tellerId" Type="Int32" />
+          <Property Name="passangerId" Type="Int32" />
+          <NavigationProperty Name="Security" Relationship="Self.FK__Luggage__securit__69FBBC1F" FromRole="Luggage" ToRole="Security" />
+          <NavigationProperty Name="Transporter" Relationship="Self.FK__Luggage__transpo__690797E6" FromRole="Luggage" ToRole="Transporter" />
+          <NavigationProperty Name="Teller" Relationship="Self.FK__Luggage__tellerI__6AEFE058" FromRole="Luggage" ToRole="Teller" />
+          <NavigationProperty Name="Passanger" Relationship="Self.FK__Luggage__passang__6BE40491" FromRole="Luggage" ToRole="Passanger" />
+          <NavigationProperty Name="Luggage_Color" Relationship="Self.FK__Luggage_C__lugga__7849DB76" FromRole="Luggage" ToRole="Luggage_Color" />
+        </EntityType>
+        <EntityType Name="Passanger">
+          <Key>
+            <PropertyRef Name="passangerId" />
+          </Key>
+          <Property Name="passangerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="bDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="isOkay" Type="Boolean" Nullable="false" />
+          <Property Name="isTicketOkay" Type="Boolean" Nullable="false" />
+          <Property Name="securityId" Type="Int32" />
+          <NavigationProperty Name="Security" Relationship="Self.FK__Passanger__secur__2B0A656D" FromRole="Passanger" ToRole="Security" />
+          <NavigationProperty Name="Luggage" Relationship="Self.FK__Luggage__passang__6BE40491" FromRole="Passanger" ToRole="Luggage" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK__Ticket__passange__3E1D39E1" FromRole="Passanger" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="Airports_Air_Company_Date">
+          <Key>
+            <PropertyRef Name="startDate" />
+            <PropertyRef Name="endDate" />
+          </Key>
+          <Property Name="startDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AirportName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Airports" Relationship="Self.FK__Airports___Airpo__7D439ABD" FromRole="Airports_Air_Company_Date" ToRole="Airports" />
+          <NavigationProperty Name="Air_Company" Relationship="Self.FK__Airports___Compa__7E37BEF6" FromRole="Airports_Air_Company_Date" ToRole="Air_Company" />
+        </EntityType>
+        <EntityType Name="Counters">
+          <Key>
+            <PropertyRef Name="AirportName" />
+            <PropertyRef Name="counterNumber" />
+          </Key>
+          <Property Name="AirportName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="counterNumber" Type="Byte" Nullable="false" />
+          <Property Name="tellerId" Type="Int32" />
+          <NavigationProperty Name="Airports" Relationship="Self.FK__Counters__Airpor__07C12930" FromRole="Counters" ToRole="Airports" />
+          <NavigationProperty Name="Teller" Relationship="Self.FK__Counters__teller__3DE82FB7" FromRole="Counters" ToRole="Teller" />
+        </EntityType>
+        <EntityType Name="Transport_Vehicle_Airplane">
+          <Key>
+            <PropertyRef Name="luggageNumber" />
+          </Key>
+          <Property Name="luggageNumber" Type="Int16" Nullable="false" />
+          <Property Name="airplaneId" Type="Int32" />
+          <Property Name="vehicleId" Type="Int32" />
+          <NavigationProperty Name="Transport_Vehicle" Relationship="Self.FK__Transport__vehic__282DF8C2" FromRole="Transport_Vehicle_Airplane" ToRole="Transport_Vehicle" />
+          <NavigationProperty Name="Airplane" Relationship="Self.FK__Transport__airpl__2739D489" FromRole="Transport_Vehicle_Airplane" ToRole="Airplane" />
+        </EntityType>
+        <EntityType Name="Luggage_Color">
+          <Key>
+            <PropertyRef Name="primaryColor" />
+          </Key>
+          <Property Name="luggageId" Type="Int32" />
+          <Property Name="primaryColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="secondaryColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Luggage" Relationship="Self.FK__Luggage_C__lugga__7849DB76" FromRole="Luggage_Color" ToRole="Luggage" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="ticketId" />
+            <PropertyRef Name="price" />
+          </Key>
+          <Property Name="ticketId" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Int16" Nullable="false" />
+          <Property Name="tellerId" Type="Int32" />
+          <Property Name="flightId" Type="Int32" />
+          <Property Name="passangerId" Type="Int32" />
+          <NavigationProperty Name="Teller" Relationship="Self.FK__Ticket__tellerId__3C34F16F" FromRole="Ticket" ToRole="Teller" />
+          <NavigationProperty Name="Flight" Relationship="Self.FK__Ticket__flightId__3D2915A8" FromRole="Ticket" ToRole="Flight" />
+          <NavigationProperty Name="Passanger" Relationship="Self.FK__Ticket__passange__3E1D39E1" FromRole="Ticket" ToRole="Passanger" />
+        </EntityType>
+        <EntityType Name="listAllCarry">
+          <Key>
+            <PropertyRef Name="lugageId" />
+            <PropertyRef Name="weight" />
+            <PropertyRef Name="primaryColor" />
+            <PropertyRef Name="vehicleType" />
+            <PropertyRef Name="year" />
+          </Key>
+          <Property Name="lugageId" Type="Int32" Nullable="false" />
+          <Property Name="weight" Type="Double" Nullable="false" />
+          <Property Name="primaryColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="secondaryColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="airportName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="vehicleType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="year" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="listAllEmployee">
+          <Key>
+            <PropertyRef Name="Full_Name__Airport_Employee_" />
+            <PropertyRef Name="BDate" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="Salary" />
+          </Key>
+          <Property Name="Full_Name__Airport_Employee_" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salary" Type="Int16" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="employeeType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="listTotalPlaneNumbers">
+          <Key>
+            <PropertyRef Name="companyName" />
+          </Key>
+          <Property Name="companyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Total_Airplane_in_X_company" Type="Int32" />
+        </EntityType>
+        <EntityType Name="viewValidAgrements">
+          <Key>
+            <PropertyRef Name="startDate" />
+            <PropertyRef Name="endDate" />
+          </Key>
+          <Property Name="AirportName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="startDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Counter_Teller_Dist">
+          <Key>
+            <PropertyRef Name="tellerId" />
+            <PropertyRef Name="FName" />
+            <PropertyRef Name="MName" />
+            <PropertyRef Name="LName" />
+            <PropertyRef Name="counterNumber" />
+          </Key>
+          <Property Name="AirCompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tellerId" Type="Int32" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="counterNumber" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlightDetails">
+          <Key>
+            <PropertyRef Name="destinationName" />
+            <PropertyRef Name="model" />
+            <PropertyRef Name="boardingTime" />
+            <PropertyRef Name="departureTime" />
+            <PropertyRef Name="arrivalTime" />
+            <PropertyRef Name="Pilot" />
+          </Key>
+          <Property Name="startpointName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="destinationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="boardingTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="departureTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="arrivalTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Pilot" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="approvedTickets">
+          <Key>
+            <PropertyRef Name="Passanger_Full_Name" />
+            <PropertyRef Name="ticketId" />
+            <PropertyRef Name="Security" />
+          </Key>
+          <Property Name="Passanger_Full_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ticketId" Type="Int32" Nullable="false" />
+          <Property Name="Security" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="listPassange_Luggage">
+          <Key>
+            <PropertyRef Name="passangerId" />
+          </Key>
+          <Property Name="passangerId" Type="Int32" Nullable="false" />
+          <Property Name="Lugage_Count" Type="Int32" />
+          <Property Name="Total_Lugage_Weight" Type="Double" />
+        </EntityType>
+        <EntityType Name="ordinaryTicket">
+          <Key>
+            <PropertyRef Name="ticketId" />
+            <PropertyRef Name="FName" />
+            <PropertyRef Name="MName" />
+            <PropertyRef Name="LName" />
+            <PropertyRef Name="price" />
+          </Key>
+          <Property Name="ticketId" Type="Int32" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Int16" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Airport_E__Airpo__04E4BC85">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Airport_Employee" Type="Self.Airport_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Airport_Employee">
+              <PropertyRef Name="AirportName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Security__airEmI__1332DBDC">
+          <End Role="Airport_Employee" Type="Self.Airport_Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Security" Type="Self.Security" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airport_Employee">
+              <PropertyRef Name="airEmId" />
+            </Principal>
+            <Dependent Role="Security">
+              <PropertyRef Name="airEmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Airports___Airpo__7D439ABD">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Airports_Air_Company_Date" Type="Self.Airports_Air_Company_Date" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Airports_Air_Company_Date">
+              <PropertyRef Name="AirportName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Company_E__AirPo__02084FDA">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Company_Employee" Type="Self.Company_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Company_Employee">
+              <PropertyRef Name="AirPortName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Counters__Airpor__07C12930">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Counters" Type="Self.Counters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Counters">
+              <PropertyRef Name="AirportName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Flight__destinat__2DE6D218">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Flight" Type="Self.Flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Flight">
+              <PropertyRef Name="startPointName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transport__airpo__22751F6C">
+          <End Role="Airports" Type="Self.Airports" Multiplicity="0..1" />
+          <End Role="Transport_Vehicle" Type="Self.Transport_Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airports">
+              <PropertyRef Name="airportName" />
+            </Principal>
+            <Dependent Role="Transport_Vehicle">
+              <PropertyRef Name="airportName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Luggage__securit__69FBBC1F">
+          <End Role="Security" Type="Self.Security" Multiplicity="0..1" />
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security">
+              <PropertyRef Name="SecurityId" />
+            </Principal>
+            <Dependent Role="Luggage">
+              <PropertyRef Name="securityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Passanger__secur__2B0A656D">
+          <End Role="Security" Type="Self.Security" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Passanger" Type="Self.Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security">
+              <PropertyRef Name="SecurityId" />
+            </Principal>
+            <Dependent Role="Passanger">
+              <PropertyRef Name="securityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transport__trans__2180FB33">
+          <End Role="Transporter" Type="Self.Transporter" Multiplicity="0..1" />
+          <End Role="Transport_Vehicle" Type="Self.Transport_Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transporter">
+              <PropertyRef Name="transporterId" />
+            </Principal>
+            <Dependent Role="Transport_Vehicle">
+              <PropertyRef Name="transporterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transport__vehic__282DF8C2">
+          <End Role="Transport_Vehicle" Type="Self.Transport_Vehicle" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transport_Vehicle_Airplane" Type="Self.Transport_Vehicle_Airplane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transport_Vehicle">
+              <PropertyRef Name="vehicleId" />
+            </Principal>
+            <Dependent Role="Transport_Vehicle_Airplane">
+              <PropertyRef Name="vehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Luggage__transpo__690797E6">
+          <End Role="Transporter" Type="Self.Transporter" Multiplicity="0..1" />
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transporter">
+              <PropertyRef Name="transporterId" />
+            </Principal>
+            <Dependent Role="Luggage">
+              <PropertyRef Name="transporterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Airplane__airCom__1AD3FDA4">
+          <End Role="Air_Company" Type="Self.Air_Company" Multiplicity="0..1" />
+          <End Role="Airplane" Type="Self.Airplane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Air_Company">
+              <PropertyRef Name="companyName" />
+            </Principal>
+            <Dependent Role="Airplane">
+              <PropertyRef Name="airCompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Airports___Compa__7E37BEF6">
+          <End Role="Air_Company" Type="Self.Air_Company" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Airports_Air_Company_Date" Type="Self.Airports_Air_Company_Date" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Air_Company">
+              <PropertyRef Name="companyName" />
+            </Principal>
+            <Dependent Role="Airports_Air_Company_Date">
+              <PropertyRef Name="CompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Company_E__AirCo__01142BA1">
+          <End Role="Air_Company" Type="Self.Air_Company" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Company_Employee" Type="Self.Company_Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Air_Company">
+              <PropertyRef Name="companyName" />
+            </Principal>
+            <Dependent Role="Company_Employee">
+              <PropertyRef Name="AirCompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Airplane__pilotI__19DFD96B">
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="0..1" />
+          <End Role="Airplane" Type="Self.Airplane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pilot">
+              <PropertyRef Name="pilotId" />
+            </Principal>
+            <Dependent Role="Airplane">
+              <PropertyRef Name="pilotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transport__airpl__2739D489">
+          <End Role="Airplane" Type="Self.Airplane" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transport_Vehicle_Airplane" Type="Self.Transport_Vehicle_Airplane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airplane">
+              <PropertyRef Name="airplaneId" />
+            </Principal>
+            <Dependent Role="Transport_Vehicle_Airplane">
+              <PropertyRef Name="airplaneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pilot__coEmId__0A9D95DB">
+          <End Role="Company_Employee" Type="Self.Company_Employee" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Pilot" Type="Self.Pilot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Employee">
+              <PropertyRef Name="coEmId" />
+            </Principal>
+            <Dependent Role="Pilot">
+              <PropertyRef Name="coEmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Teller__coEmId__0D7A0286">
+          <End Role="Company_Employee" Type="Self.Company_Employee" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Teller" Type="Self.Teller" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Employee">
+              <PropertyRef Name="coEmId" />
+            </Principal>
+            <Dependent Role="Teller">
+              <PropertyRef Name="coEmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Counters__teller__3DE82FB7">
+          <End Role="Teller" Type="Self.Teller" Multiplicity="0..1" />
+          <End Role="Counters" Type="Self.Counters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teller">
+              <PropertyRef Name="tellerId" />
+            </Principal>
+            <Dependent Role="Counters">
+              <PropertyRef Name="tellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Luggage__tellerI__6AEFE058">
+          <End Role="Teller" Type="Self.Teller" Multiplicity="0..1" />
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teller">
+              <PropertyRef Name="tellerId" />
+            </Principal>
+            <Dependent Role="Luggage">
+              <PropertyRef Name="tellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__tellerId__3C34F16F">
+          <End Role="Teller" Type="Self.Teller" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teller">
+              <PropertyRef Name="tellerId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="tellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__flightId__3D2915A8">
+          <End Role="Flight" Type="Self.Flight" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flight">
+              <PropertyRef Name="flightId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="flightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Luggage__passang__6BE40491">
+          <End Role="Passanger" Type="Self.Passanger" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passanger">
+              <PropertyRef Name="passangerId" />
+            </Principal>
+            <Dependent Role="Luggage">
+              <PropertyRef Name="passangerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Luggage_C__lugga__7849DB76">
+          <End Role="Luggage" Type="Self.Luggage" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Luggage_Color" Type="Self.Luggage_Color" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luggage">
+              <PropertyRef Name="lugageId" />
+            </Principal>
+            <Dependent Role="Luggage_Color">
+              <PropertyRef Name="luggageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__passange__3E1D39E1">
+          <End Role="Passanger" Type="Self.Passanger" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passanger">
+              <PropertyRef Name="passangerId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="passangerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LugageBillingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Airport_Employee" EntityType="Self.Airport_Employee" />
+          <EntitySet Name="Airports" EntityType="Self.Airports" />
+          <EntitySet Name="Security" EntityType="Self.Security" />
+          <EntitySet Name="Transport_Vehicle" EntityType="Self.Transport_Vehicle" />
+          <EntitySet Name="Transporter" EntityType="Self.Transporter" />
+          <EntitySet Name="Air_Company" EntityType="Self.Air_Company" />
+          <EntitySet Name="Airplane" EntityType="Self.Airplane" />
+          <EntitySet Name="Company_Employee" EntityType="Self.Company_Employee" />
+          <EntitySet Name="Pilot" EntityType="Self.Pilot" />
+          <EntitySet Name="Teller" EntityType="Self.Teller" />
+          <EntitySet Name="Flight" EntityType="Self.Flight" />
+          <EntitySet Name="Luggage" EntityType="Self.Luggage" />
+          <EntitySet Name="Passanger" EntityType="Self.Passanger" />
+          <EntitySet Name="Airports_Air_Company_Date" EntityType="Self.Airports_Air_Company_Date" />
+          <EntitySet Name="Counters" EntityType="Self.Counters" />
+          <EntitySet Name="Transport_Vehicle_Airplane" EntityType="Self.Transport_Vehicle_Airplane" />
+          <EntitySet Name="Luggage_Color" EntityType="Self.Luggage_Color" />
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" />
+          <EntitySet Name="listAllCarry" EntityType="Self.listAllCarry" />
+          <EntitySet Name="listAllEmployee" EntityType="Self.listAllEmployee" />
+          <EntitySet Name="listTotalPlaneNumbers" EntityType="Self.listTotalPlaneNumbers" />
+          <EntitySet Name="viewValidAgrements" EntityType="Self.viewValidAgrements" />
+          <EntitySet Name="Counter_Teller_Dist" EntityType="Self.Counter_Teller_Dist" />
+          <EntitySet Name="FlightDetails" EntityType="Self.FlightDetails" />
+          <EntitySet Name="approvedTickets" EntityType="Self.approvedTickets" />
+          <EntitySet Name="listPassange_Luggage" EntityType="Self.listPassange_Luggage" />
+          <EntitySet Name="ordinaryTicket" EntityType="Self.ordinaryTicket" />
+          <AssociationSet Name="FK__Airport_E__Airpo__04E4BC85" Association="Self.FK__Airport_E__Airpo__04E4BC85">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Airport_Employee" EntitySet="Airport_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Security__airEmI__1332DBDC" Association="Self.FK__Security__airEmI__1332DBDC">
+            <End Role="Airport_Employee" EntitySet="Airport_Employee" />
+            <End Role="Security" EntitySet="Security" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Airports___Airpo__7D439ABD" Association="Self.FK__Airports___Airpo__7D439ABD">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Airports_Air_Company_Date" EntitySet="Airports_Air_Company_Date" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Company_E__AirPo__02084FDA" Association="Self.FK__Company_E__AirPo__02084FDA">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Company_Employee" EntitySet="Company_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Counters__Airpor__07C12930" Association="Self.FK__Counters__Airpor__07C12930">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Counters" EntitySet="Counters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Flight__destinat__2DE6D218" Association="Self.FK__Flight__destinat__2DE6D218">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Flight" EntitySet="Flight" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transport__airpo__22751F6C" Association="Self.FK__Transport__airpo__22751F6C">
+            <End Role="Airports" EntitySet="Airports" />
+            <End Role="Transport_Vehicle" EntitySet="Transport_Vehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage__securit__69FBBC1F" Association="Self.FK__Luggage__securit__69FBBC1F">
+            <End Role="Security" EntitySet="Security" />
+            <End Role="Luggage" EntitySet="Luggage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Passanger__secur__2B0A656D" Association="Self.FK__Passanger__secur__2B0A656D">
+            <End Role="Security" EntitySet="Security" />
+            <End Role="Passanger" EntitySet="Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transport__trans__2180FB33" Association="Self.FK__Transport__trans__2180FB33">
+            <End Role="Transporter" EntitySet="Transporter" />
+            <End Role="Transport_Vehicle" EntitySet="Transport_Vehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transport__vehic__282DF8C2" Association="Self.FK__Transport__vehic__282DF8C2">
+            <End Role="Transport_Vehicle" EntitySet="Transport_Vehicle" />
+            <End Role="Transport_Vehicle_Airplane" EntitySet="Transport_Vehicle_Airplane" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage__transpo__690797E6" Association="Self.FK__Luggage__transpo__690797E6">
+            <End Role="Transporter" EntitySet="Transporter" />
+            <End Role="Luggage" EntitySet="Luggage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Airplane__airCom__1AD3FDA4" Association="Self.FK__Airplane__airCom__1AD3FDA4">
+            <End Role="Air_Company" EntitySet="Air_Company" />
+            <End Role="Airplane" EntitySet="Airplane" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Airports___Compa__7E37BEF6" Association="Self.FK__Airports___Compa__7E37BEF6">
+            <End Role="Air_Company" EntitySet="Air_Company" />
+            <End Role="Airports_Air_Company_Date" EntitySet="Airports_Air_Company_Date" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Company_E__AirCo__01142BA1" Association="Self.FK__Company_E__AirCo__01142BA1">
+            <End Role="Air_Company" EntitySet="Air_Company" />
+            <End Role="Company_Employee" EntitySet="Company_Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Airplane__pilotI__19DFD96B" Association="Self.FK__Airplane__pilotI__19DFD96B">
+            <End Role="Pilot" EntitySet="Pilot" />
+            <End Role="Airplane" EntitySet="Airplane" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transport__airpl__2739D489" Association="Self.FK__Transport__airpl__2739D489">
+            <End Role="Airplane" EntitySet="Airplane" />
+            <End Role="Transport_Vehicle_Airplane" EntitySet="Transport_Vehicle_Airplane" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pilot__coEmId__0A9D95DB" Association="Self.FK__Pilot__coEmId__0A9D95DB">
+            <End Role="Company_Employee" EntitySet="Company_Employee" />
+            <End Role="Pilot" EntitySet="Pilot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Teller__coEmId__0D7A0286" Association="Self.FK__Teller__coEmId__0D7A0286">
+            <End Role="Company_Employee" EntitySet="Company_Employee" />
+            <End Role="Teller" EntitySet="Teller" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Counters__teller__3DE82FB7" Association="Self.FK__Counters__teller__3DE82FB7">
+            <End Role="Teller" EntitySet="Teller" />
+            <End Role="Counters" EntitySet="Counters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage__tellerI__6AEFE058" Association="Self.FK__Luggage__tellerI__6AEFE058">
+            <End Role="Teller" EntitySet="Teller" />
+            <End Role="Luggage" EntitySet="Luggage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__tellerId__3C34F16F" Association="Self.FK__Ticket__tellerId__3C34F16F">
+            <End Role="Teller" EntitySet="Teller" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__flightId__3D2915A8" Association="Self.FK__Ticket__flightId__3D2915A8">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage__passang__6BE40491" Association="Self.FK__Luggage__passang__6BE40491">
+            <End Role="Passanger" EntitySet="Passanger" />
+            <End Role="Luggage" EntitySet="Luggage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Luggage_C__lugga__7849DB76" Association="Self.FK__Luggage_C__lugga__7849DB76">
+            <End Role="Luggage" EntitySet="Luggage" />
+            <End Role="Luggage_Color" EntitySet="Luggage_Color" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__passange__3E1D39E1" Association="Self.FK__Ticket__passange__3E1D39E1">
+            <End Role="Passanger" EntitySet="Passanger" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <FunctionImport Name="luggagesDest" IsComposable="true" ReturnType="Collection(LugageBillingModel.luggagesDest_Result)">
+            <Parameter Name="destName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="findAirport" ReturnType="Collection(String)">
+            <Parameter Name="address" Mode="In" Type="String" />
+            <Parameter Name="city" Mode="In" Type="String" />
+            <Parameter Name="state" Mode="In" Type="String" />
+            <Parameter Name="country" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insertLuggageCapacity">
+            <Parameter Name="airplaneId" Mode="In" Type="Int32" />
+            <Parameter Name="weight" Mode="In" Type="Double" />
+            <Parameter Name="transporter" Mode="In" Type="Int32" />
+            <Parameter Name="security" Mode="In" Type="Int32" />
+            <Parameter Name="teller" Mode="In" Type="Int32" />
+            <Parameter Name="passanger" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="updateSalary">
+            <Parameter Name="employeeType" Mode="In" Type="String" />
+            <Parameter Name="salary" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="findCompanyEmployee" ReturnType="Collection(LugageBillingModel.findCompanyEmployee_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getNewEmployee">
+            <Parameter Name="FName" Mode="In" Type="String" />
+            <Parameter Name="MName" Mode="In" Type="String" />
+            <Parameter Name="LName" Mode="In" Type="String" />
+            <Parameter Name="BDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="Salary" Mode="In" Type="Int16" />
+            <Parameter Name="Sex" Mode="In" Type="String" />
+            <Parameter Name="aircompany" Mode="In" Type="String" />
+            <Parameter Name="airportName" Mode="In" Type="String" />
+            <Parameter Name="employeeType" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="listAllBaggages" ReturnType="Collection(LugageBillingModel.listAllBaggages_Result)" />
+          <FunctionImport Name="listAllLuggageInAirplane" ReturnType="Collection(LugageBillingModel.listAllLuggageInAirplane_Result)">
+            <Parameter Name="airplaneId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="listPilotAirplane" ReturnType="Collection(LugageBillingModel.listPilotAirplane_Result)" />
+          <FunctionImport Name="retireEmployee" />
+          <FunctionImport Name="deleteInvalidLugage" />
+          <FunctionImport Name="deleteUnvalidTicket" />
+          <FunctionImport Name="determineTicketPrice" ReturnType="Collection(LugageBillingModel.determineTicketPrice_Result)">
+            <Parameter Name="passangerId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="findLuggage" ReturnType="Collection(LugageBillingModel.findLuggage_Result)">
+            <Parameter Name="weight" Mode="In" Type="Double" />
+            <Parameter Name="primaryColor" Mode="In" Type="String" />
+            <Parameter Name="secondaryColor" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="listLuggages" ReturnType="Collection(LugageBillingModel.listLuggages_Result)" />
+          <FunctionImport Name="writeLuggageMessage">
+            <Parameter Name="isSafe" Mode="In" Type="Boolean" />
+            <Parameter Name="isBaggage" Mode="In" Type="Boolean" />
+            <Parameter Name="weight" Mode="In" Type="Double" />
+            <Parameter Name="transporter" Mode="In" Type="Int32" />
+            <Parameter Name="secuity" Mode="In" Type="Int32" />
+            <Parameter Name="teller" Mode="In" Type="Int32" />
+            <Parameter Name="passanger" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="findCompanyEmployee_Result">
+          <Property Type="String" Name="Full_Name" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="BDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="100" />
+          <Property Type="Int16" Name="Salary" Nullable="false" />
+          <Property Type="String" Name="Sex" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="AirCompanyName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AirPortName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="employeeType" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="listAllBaggages_Result">
+          <Property Type="Int32" Name="lugageId" Nullable="false" />
+          <Property Type="String" Name="destinationName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="listAllLuggageInAirplane_Result">
+          <Property Type="Int32" Name="lugageId" Nullable="false" />
+          <Property Type="Double" Name="weight" Nullable="false" />
+          <Property Type="Int32" Name="airplaneId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="listPilotAirplane_Result">
+          <Property Type="String" Name="Full_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="model" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="year" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="capacity" Nullable="false" />
+          <Property Type="Int16" Name="luggageCapacity" Nullable="false" />
+          <Property Type="String" Name="airCompanyName" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="determineTicketPrice_Result">
+          <Property Type="Int32" Name="passangerId" Nullable="true" />
+          <Property Type="Double" Name="Column1" Nullable="true" />
+          <Property Type="Int32" Name="price" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="findLuggage_Result">
+          <Property Type="Int32" Name="lugageId" Nullable="false" />
+          <Property Type="String" Name="Full_Name" Nullable="false" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="listLuggages_Result">
+          <Property Type="Int32" Name="lugageId" Nullable="false" />
+          <Property Type="Double" Name="weight" Nullable="false" />
+          <Property Type="Int32" Name="securityId" Nullable="true" />
+          <Property Type="Int32" Name="tellerId" Nullable="true" />
+          <Property Type="Int32" Name="passangerId" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LugageBillingModelStoreContainer" CdmEntityContainer="LugageBillingEntities">
+          <EntitySetMapping Name="Airport_Employee">
+            <EntityTypeMapping TypeName="LugageBillingModel.Airport_Employee">
+              <MappingFragment StoreEntitySet="Airport_Employee">
+                <ScalarProperty Name="airEmId" ColumnName="airEmId" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="MName" ColumnName="MName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="BDate" ColumnName="BDate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="AirportName" ColumnName="AirportName" />
+                <ScalarProperty Name="employeeType" ColumnName="employeeType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Airports">
+            <EntityTypeMapping TypeName="LugageBillingModel.Airports">
+              <MappingFragment StoreEntitySet="Airports">
+                <ScalarProperty Name="airportName" ColumnName="airportName" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="country" ColumnName="country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Security">
+            <EntityTypeMapping TypeName="LugageBillingModel.Security">
+              <MappingFragment StoreEntitySet="Security">
+                <ScalarProperty Name="SecurityId" ColumnName="SecurityId" />
+                <ScalarProperty Name="airEmId" ColumnName="airEmId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transport_Vehicle">
+            <EntityTypeMapping TypeName="LugageBillingModel.Transport_Vehicle">
+              <MappingFragment StoreEntitySet="Transport_Vehicle">
+                <ScalarProperty Name="vehicleId" ColumnName="vehicleId" />
+                <ScalarProperty Name="vehicleType" ColumnName="vehicleType" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="transporterId" ColumnName="transporterId" />
+                <ScalarProperty Name="airportName" ColumnName="airportName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transporter">
+            <EntityTypeMapping TypeName="LugageBillingModel.Transporter">
+              <MappingFragment StoreEntitySet="Transporter">
+                <ScalarProperty Name="transporterId" ColumnName="transporterId" />
+                <ScalarProperty Name="airEmId" ColumnName="airEmId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Air_Company">
+            <EntityTypeMapping TypeName="LugageBillingModel.Air_Company">
+              <MappingFragment StoreEntitySet="Air_Company">
+                <ScalarProperty Name="companyName" ColumnName="companyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Airplane">
+            <EntityTypeMapping TypeName="LugageBillingModel.Airplane">
+              <MappingFragment StoreEntitySet="Airplane">
+                <ScalarProperty Name="airplaneId" ColumnName="airplaneId" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="pilotId" ColumnName="pilotId" />
+                <ScalarProperty Name="airCompanyName" ColumnName="airCompanyName" />
+                <ScalarProperty Name="capacity" ColumnName="capacity" />
+                <ScalarProperty Name="luggageCapacity" ColumnName="luggageCapacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company_Employee">
+            <EntityTypeMapping TypeName="LugageBillingModel.Company_Employee">
+              <MappingFragment StoreEntitySet="Company_Employee">
+                <ScalarProperty Name="coEmId" ColumnName="coEmId" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="MName" ColumnName="MName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="BDate" ColumnName="BDate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="AirCompanyName" ColumnName="AirCompanyName" />
+                <ScalarProperty Name="AirPortName" ColumnName="AirPortName" />
+                <ScalarProperty Name="employeeType" ColumnName="employeeType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pilot">
+            <EntityTypeMapping TypeName="LugageBillingModel.Pilot">
+              <MappingFragment StoreEntitySet="Pilot">
+                <ScalarProperty Name="pilotId" ColumnName="pilotId" />
+                <ScalarProperty Name="coEmId" ColumnName="coEmId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teller">
+            <EntityTypeMapping TypeName="LugageBillingModel.Teller">
+              <MappingFragment StoreEntitySet="Teller">
+                <ScalarProperty Name="tellerId" ColumnName="tellerId" />
+                <ScalarProperty Name="coEmId" ColumnName="coEmId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Flight">
+            <EntityTypeMapping TypeName="LugageBillingModel.Flight">
+              <MappingFragment StoreEntitySet="Flight">
+                <ScalarProperty Name="flightId" ColumnName="flightId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="boardingTime" ColumnName="boardingTime" />
+                <ScalarProperty Name="departureTime" ColumnName="departureTime" />
+                <ScalarProperty Name="arrivalTime" ColumnName="arrivalTime" />
+                <ScalarProperty Name="startPointName" ColumnName="startPointName" />
+                <ScalarProperty Name="destinationName" ColumnName="destinationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Luggage">
+            <EntityTypeMapping TypeName="LugageBillingModel.Luggage">
+              <MappingFragment StoreEntitySet="Luggage">
+                <ScalarProperty Name="lugageId" ColumnName="lugageId" />
+                <ScalarProperty Name="isSafe" ColumnName="isSafe" />
+                <ScalarProperty Name="isBaggageClaim" ColumnName="isBaggageClaim" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="transporterId" ColumnName="transporterId" />
+                <ScalarProperty Name="securityId" ColumnName="securityId" />
+                <ScalarProperty Name="tellerId" ColumnName="tellerId" />
+                <ScalarProperty Name="passangerId" ColumnName="passangerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Passanger">
+            <EntityTypeMapping TypeName="LugageBillingModel.Passanger">
+              <MappingFragment StoreEntitySet="Passanger">
+                <ScalarProperty Name="passangerId" ColumnName="passangerId" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="MName" ColumnName="MName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="bDate" ColumnName="bDate" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="isOkay" ColumnName="isOkay" />
+                <ScalarProperty Name="isTicketOkay" ColumnName="isTicketOkay" />
+                <ScalarProperty Name="securityId" ColumnName="securityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Airports_Air_Company_Date">
+            <EntityTypeMapping TypeName="LugageBillingModel.Airports_Air_Company_Date">
+              <MappingFragment StoreEntitySet="Airports_Air_Company_Date">
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="AirportName" ColumnName="AirportName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Counters">
+            <EntityTypeMapping TypeName="LugageBillingModel.Counters">
+              <MappingFragment StoreEntitySet="Counters">
+                <ScalarProperty Name="AirportName" ColumnName="AirportName" />
+                <ScalarProperty Name="counterNumber" ColumnName="counterNumber" />
+                <ScalarProperty Name="tellerId" ColumnName="tellerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transport_Vehicle_Airplane">
+            <EntityTypeMapping TypeName="LugageBillingModel.Transport_Vehicle_Airplane">
+              <MappingFragment StoreEntitySet="Transport_Vehicle_Airplane">
+                <ScalarProperty Name="luggageNumber" ColumnName="luggageNumber" />
+                <ScalarProperty Name="airplaneId" ColumnName="airplaneId" />
+                <ScalarProperty Name="vehicleId" ColumnName="vehicleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Luggage_Color">
+            <EntityTypeMapping TypeName="LugageBillingModel.Luggage_Color">
+              <MappingFragment StoreEntitySet="Luggage_Color">
+                <ScalarProperty Name="luggageId" ColumnName="luggageId" />
+                <ScalarProperty Name="primaryColor" ColumnName="primaryColor" />
+                <ScalarProperty Name="secondaryColor" ColumnName="secondaryColor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ticket">
+            <EntityTypeMapping TypeName="LugageBillingModel.Ticket">
+              <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="ticketId" ColumnName="ticketId" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="tellerId" ColumnName="tellerId" />
+                <ScalarProperty Name="flightId" ColumnName="flightId" />
+                <ScalarProperty Name="passangerId" ColumnName="passangerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="listAllCarry">
+            <EntityTypeMapping TypeName="LugageBillingModel.listAllCarry">
+              <MappingFragment StoreEntitySet="listAllCarry">
+                <ScalarProperty Name="lugageId" ColumnName="lugageId" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="primaryColor" ColumnName="primaryColor" />
+                <ScalarProperty Name="secondaryColor" ColumnName="secondaryColor" />
+                <ScalarProperty Name="airportName" ColumnName="airportName" />
+                <ScalarProperty Name="vehicleType" ColumnName="vehicleType" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="listAllEmployee">
+            <EntityTypeMapping TypeName="LugageBillingModel.listAllEmployee">
+              <MappingFragment StoreEntitySet="listAllEmployee">
+                <ScalarProperty Name="Full_Name__Airport_Employee_" ColumnName="Full Name (Airport Employee)" />
+                <ScalarProperty Name="BDate" ColumnName="BDate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="employeeType" ColumnName="employeeType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="listTotalPlaneNumbers">
+            <EntityTypeMapping TypeName="LugageBillingModel.listTotalPlaneNumbers">
+              <MappingFragment StoreEntitySet="listTotalPlaneNumbers">
+                <ScalarProperty Name="companyName" ColumnName="companyName" />
+                <ScalarProperty Name="Total_Airplane_in_X_company" ColumnName="Total Airplane in X company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="viewValidAgrements">
+            <EntityTypeMapping TypeName="LugageBillingModel.viewValidAgrements">
+              <MappingFragment StoreEntitySet="viewValidAgrements">
+                <ScalarProperty Name="AirportName" ColumnName="AirportName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Counter_Teller_Dist">
+            <EntityTypeMapping TypeName="LugageBillingModel.Counter_Teller_Dist">
+              <MappingFragment StoreEntitySet="Counter_Teller_Dist">
+                <ScalarProperty Name="AirCompanyName" ColumnName="AirCompanyName" />
+                <ScalarProperty Name="tellerId" ColumnName="tellerId" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="MName" ColumnName="MName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="counterNumber" ColumnName="counterNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlightDetails">
+            <EntityTypeMapping TypeName="LugageBillingModel.FlightDetails">
+              <MappingFragment StoreEntitySet="FlightDetails">
+                <ScalarProperty Name="startpointName" ColumnName="startpointName" />
+                <ScalarProperty Name="destinationName" ColumnName="destinationName" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="boardingTime" ColumnName="boardingTime" />
+                <ScalarProperty Name="departureTime" ColumnName="departureTime" />
+                <ScalarProperty Name="arrivalTime" ColumnName="arrivalTime" />
+                <ScalarProperty Name="Pilot" ColumnName="Pilot" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="approvedTickets">
+            <EntityTypeMapping TypeName="LugageBillingModel.approvedTickets">
+              <MappingFragment StoreEntitySet="approvedTickets">
+                <ScalarProperty Name="Passanger_Full_Name" ColumnName="Passanger Full Name" />
+                <ScalarProperty Name="ticketId" ColumnName="ticketId" />
+                <ScalarProperty Name="Security" ColumnName="Security" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="listPassange_Luggage">
+            <EntityTypeMapping TypeName="LugageBillingModel.listPassange_Luggage">
+              <MappingFragment StoreEntitySet="listPassange_Luggage">
+                <ScalarProperty Name="passangerId" ColumnName="passangerId" />
+                <ScalarProperty Name="Lugage_Count" ColumnName="Lugage Count" />
+                <ScalarProperty Name="Total_Lugage_Weight" ColumnName="Total Lugage Weight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ordinaryTicket">
+            <EntityTypeMapping TypeName="LugageBillingModel.ordinaryTicket">
+              <MappingFragment StoreEntitySet="ordinaryTicket">
+                <ScalarProperty Name="ticketId" ColumnName="ticketId" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="MName" ColumnName="MName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="LugageBillingModel.Store.luggagesDest" FunctionImportName="luggagesDest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LugageBillingModel.luggagesDest_Result">
+                <ScalarProperty Name="destinationName" ColumnName="destinationName" />
+                <ScalarProperty Name="Luggage_Num" ColumnName="Luggage_Num" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="findAirport" FunctionName="LugageBillingModel.Store.findAirport" />
+          <FunctionImportMapping FunctionImportName="insertLuggageCapacity" FunctionName="LugageBillingModel.Store.insertLuggageCapacity" />
+          <FunctionImportMapping FunctionImportName="updateSalary" FunctionName="LugageBillingModel.Store.updateSalary" />
+          <FunctionImportMapping FunctionImportName="findCompanyEmployee" FunctionName="LugageBillingModel.Store.findCompanyEmployee">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LugageBillingModel.findCompanyEmployee_Result">
+                <ScalarProperty Name="Full_Name" ColumnName="Full Name" />
+                <ScalarProperty Name="BDate" ColumnName="BDate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="AirCompanyName" ColumnName="AirCompanyName" />
+                <ScalarProperty Name="AirPortName" ColumnName="AirPortName" />
+                <ScalarProperty Name="employeeType" ColumnName="employeeType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getNewEmployee" FunctionName="LugageBillingModel.Store.getNewEmployee" />
+          <FunctionImportMapping FunctionImportName="listAllBaggages" FunctionName="LugageBillingModel.Store.listAllBaggages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LugageBillingModel.listAllBaggages_Result">
+                <ScalarProperty Name="lugageId" ColumnName="lugageId" />
+                <ScalarProperty Name="destinationName" ColumnName="destinationName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="listAllLuggageInAirplane" FunctionName="LugageBillingModel.Store.listAllLuggageInAirplane">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LugageBillingModel.listAllLuggageInAirplane_Result">
+                <ScalarProperty Name="lugageId" ColumnName="lugageId" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="airplaneId" ColumnName="airplaneId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="listPilotAirplane" FunctionName="LugageBillingModel.Store.listPilotAirplane">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LugageBillingModel.listPilotAirplane_Result">
+                <ScalarProperty Name="Full_Name" ColumnName="Full Name" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="capacity" ColumnName="capacity" />
+                <ScalarProperty Name="luggageCapacity" ColumnName="luggageCapacity" />
+                <ScalarProperty Name="airCompanyName" ColumnName="airCompanyName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="retireEmployee" FunctionName="LugageBillingModel.Store.retireEmployee" />
+          <FunctionImportMapping FunctionImportName="deleteInvalidLugage" FunctionName="LugageBillingModel.Store.deleteInvalidLugage" />
+          <FunctionImportMapping FunctionImportName="deleteUnvalidTicket" FunctionName="LugageBillingModel.Store.deleteUnvalidTicket" />
+          <FunctionImportMapping FunctionImportName="determineTicketPrice" FunctionName="LugageBillingModel.Store.determineTicketPrice">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LugageBillingModel.determineTicketPrice_Result">
+                <ScalarProperty Name="passangerId" ColumnName="passangerId" />
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="findLuggage" FunctionName="LugageBillingModel.Store.findLuggage">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LugageBillingModel.findLuggage_Result">
+                <ScalarProperty Name="lugageId" ColumnName="lugageId" />
+                <ScalarProperty Name="Full_Name" ColumnName="Full Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="listLuggages" FunctionName="LugageBillingModel.Store.listLuggages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LugageBillingModel.listLuggages_Result">
+                <ScalarProperty Name="lugageId" ColumnName="lugageId" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="securityId" ColumnName="securityId" />
+                <ScalarProperty Name="tellerId" ColumnName="tellerId" />
+                <ScalarProperty Name="passangerId" ColumnName="passangerId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="writeLuggageMessage" FunctionName="LugageBillingModel.Store.writeLuggageMessage" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

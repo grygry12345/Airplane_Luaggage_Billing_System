@@ -1,0 +1,38 @@
+﻿@model AirplaneLuggageBilling.Models.Luggage
+@{
+    ViewBag.Title = "DeleteLuggage";
+    Layout = "~/Views/admin/_Layout.cshtml";
+}
+
+<h2>Delete Luggage</h2>
+
+<div class="col-lg-12">
+    <div class="col-lg-6">
+        <h2>Are you sure you wish to delete this record?</h2>
+        <table class="table table-bordered table-responsive table-hover">
+            <tr>
+                <td class="col-lg-1"><b>Luggage ID</b></td>
+                <td>@Model.lugageId</td>
+            </tr>
+            <tr>
+                <td class="col-lg-1"><b>Luggage Weight</b></td>
+                <td>@Model.weight</td>
+            </tr>
+            <tr>
+                <td class="col-lg-1"><b>Is Safe</b></td>
+                <td>@Model.isSafe</td>
+            </tr>
+            <tr>
+                <td class="col-lg-1"><b>Is Baggage Claim</b></td>
+                <td>@Model.weight</td>
+            </tr>
+            <tr>
+                <td class="col-lg-3"><b>Actions</b></td>
+                <td>
+                    @Html.ActionLink("Back to list", "DetailsPassanger", "admin", new { passangerId = Model.passangerId }, new { @class="btn btn-secondary"})
+                    @Html.ActionLink("Delete", "DeleteLuggageFromList", new { luggageid = @Model.lugageId }, new { onclick = "return confirm('The record is deleting...');" ,@class= "btn btn-danger"})
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

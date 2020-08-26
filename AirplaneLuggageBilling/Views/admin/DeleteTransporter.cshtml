@@ -1,0 +1,32 @@
+﻿
+@model AirplaneLuggageBilling.Models.Airport_Employee
+@{
+    ViewBag.Title = "DeleteTeller";
+    Layout = "~/Views/admin/_Layout.cshtml";
+}
+
+<h2>Delete Transporter</h2>
+
+<div class="col-lg-12">
+    <div class="col-lg-6">
+        <table class="table table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>Employee Id </th>
+                    <th>Employee Full Name</th>
+                    <th>Airport Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> @Model.airEmId</td>
+                    <td> @Model.FName @Model.MName @Model.LName</td>
+                    <td> @Model.AirportName</td>
+                </tr>
+            </tbody>
+
+        </table>
+        @Html.ActionLink("Delete", "DeleteTransporterFromList", new { airEmId = @Model.airEmId }, new { onclick = "return confirm('The record is deleting...');", @class = "btn btn-danger my-auto" })
+        @Html.ActionLink("Back to list", "Transporter", "admin", new { @class = "btn btn-secondary my-auto" })
+    </div>
+</div>
